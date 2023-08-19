@@ -1,4 +1,4 @@
-# Eric's Advent of Code 2022 Solutions
+# Eric's Advent of Code 2023 Solutions
 
 ## The Blog
 
