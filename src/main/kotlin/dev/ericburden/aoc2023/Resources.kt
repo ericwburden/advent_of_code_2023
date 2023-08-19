@@ -4,18 +4,21 @@ import java.io.File
 import java.net.URI
 
 internal object Resources {
-  fun resourceAsString(fileName: String, delimiter: String = ""): String =
-      resourceAsListOfString(fileName).reduce { a, b -> "$a$delimiter$b" }
-
   fun resourceAsText(fileName: String): String = File(fileName.toURI()).readText()
 
-  fun resourceAsListOfString(fileName: String): List<String> = File(fileName.toURI()).readLines()
+  fun resourceAsLines(fileName: String): List<String> = File(fileName.toURI()).readLines()
+
+  fun resourceAsLineChunks(fileName: String, delimiter: String = "\n\n"): List<List<String>> =
+      resourceAsText(fileName).trim().split(delimiter).map { it.lines().toList() }
+
+  fun resourceAsString(fileName: String, delimiter: String = ""): String =
+      resourceAsLines(fileName).reduce { a, b -> "$a$delimiter$b" }
 
   fun resourceAsListOfInt(fileName: String): List<Int> =
-      resourceAsListOfString(fileName).map { it.toInt() }
+      resourceAsLines(fileName).map { it.toInt() }
 
   fun resourceAsListOfLong(fileName: String): List<Long> =
-      resourceAsListOfString(fileName).map { it.toLong() }
+      resourceAsLines(fileName).map { it.toLong() }
 
   private fun String.toURI(): URI =
       Resources.javaClass.classLoader.getResource(this)?.toURI()

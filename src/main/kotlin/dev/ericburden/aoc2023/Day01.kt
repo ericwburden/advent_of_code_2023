@@ -1,11 +1,10 @@
 package dev.ericburden.aoc2023
 
-class Day01(input: String) {
+class Day01(input: List<List<String>>) {
 
-  private val parsed = input.trim().split("\n\n").map { it.lines().toList() }
-  private val calorieList = parsed.map { it.sumOf(String::toInt) }
+  private val parsed = input.map { it.sumOf(String::toInt) }
 
-  fun solvePart1(): Int = calorieList.max()
+  fun solvePart1(): Int = parsed.max()
 
-  fun solvePart2(): Int = calorieList.sortedDescending().take(3).sum()
+  fun solvePart2(): Int = parsed.sortedDescending().take(3).sum()
 }
