@@ -28,6 +28,7 @@ language to learn.
 │   │ └─Day##Test.kt
 │   └resources
 │     └─day##ex##.txt
+├─get-input
 ├─pom.xml
 └─README.md
 ```
@@ -55,3 +56,8 @@ This project uses Maven as the build system. Dependencies can be installed with
 `mvn compile`. Run all tests with `mvn test`. More to come in this section as
 I discover more functionality :D.
  
+This project also include a `get-input` bash script that leverages the 
+`aoc-cli`[https://github.com/scarvalhojr/aoc-cli] Rust CLI tool to download
+the input files, name them, and place them in the correct folder. The
+script automatically attempts to download the input for the day following
+the most recent input file already downloaded.
