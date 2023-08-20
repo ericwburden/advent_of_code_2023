@@ -1,0 +1,13 @@
+#! /bin/bash
+
+LAST_DAY=$(fd -I 'day\d{2}\.txt' src/main/resources | tail -n 1 | rg -o --pcre2 '(?<=day)\d{2}')
+
+if [ -z "$LAST_DAY" ]; then
+	CURRENT_DAY=1
+else
+	CURRENT_DAY=$(($LAST_DAY + 1))
+fi
+
+PADDED=$(printf "%02d" $CURRENT_DAY)
+
+aoc -s .cookie -y 2022 -d $CURRENT_DAY -I -i src/main/resources/day"$PADDED".txt download
