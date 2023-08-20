@@ -11,6 +11,8 @@ fi
 
 # Identify the day after the last day's input fetched
 RESOURCES=src/main/resources
+mkdir -p $RESOURCES # Ensure directory exists
+
 LAST_DAY=$(fd -I 'day\d{2}\.txt' $RESOURCES | tail -n 1 | rg -o --pcre2 '(?<=day)\d{2}')
 
 if [ -z "$LAST_DAY" ]; then
