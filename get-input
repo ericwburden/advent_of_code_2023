@@ -1,5 +1,11 @@
 #! /bin/bash
 
+COOKIE=.cookie
+if [ ! -f "$COOKIE" ]; then
+	echo "Store your AoC session cookie in '.cookie'!"
+	exit 0
+fi
+
 LAST_DAY=$(fd -I 'day\d{2}\.txt' src/main/resources | tail -n 1 | rg -o --pcre2 '(?<=day)\d{2}')
 
 if [ -z "$LAST_DAY" ]; then
