@@ -1,0 +1,111 @@
+#! /bin/bash
+
+DAY=$1
+[[ -z $2 ]] && YEAR=2022 || YEAR=$2
+
+# Day must be passed as an argument
+if [ -z "$DAY" ]; then
+	echo "Please provide the day as an argument."
+	exit 0
+fi
+
+# Don't try to setup days before the 1st or after the 25th
+if (("$DAY" > 25 || "$DAY" < 1)); then
+	echo "There's no Day $1 in the advent calendar!"
+	exit 0
+fi
+
+# Don't try to set up years with no AoC (or in the future)
+if (($YEAR < 2015 || $YEAR > $(date + "%Y"))); then
+	echo "The year passed must be a valid AoC year!"
+	exit 0
+fi
+
+# Warn and quit if no .cookie file found
+COOKIE=.cookie
+if [ ! -f "$COOKIE" ]; then
+	echo "Store your AoC session cookie in '.cookie'!"
+	exit 0
+fi
+
+# Create the class files for the given day
+PADDED=$(printf "%02d" $DAY)
+SOLUTION_PATH="src/main/kotlin/dev/ericburden/aoc2023/Day${PADDED}.kt"
+TEST_PATH="src/test/kotlin/dev/ericburden/aoc2023/Day${PADDED}Test.kt"
+
+if [ -f "SOLUTION_PATH" ]; then
+	echo "You've already set up Day $DAY !"
+	exit 0
+fi
+
+cat >"$SOLUTION_PATH" <<EOL
+package dev.ericburden.aoc2023
+
+class Day${PADDED}(input: String) {
+
+    private val parsed = null
+
+    fun solvePart1(): Int = 0
+
+    fun solvePart2(): Int = 0
+}
+EOL
+
+cat >"$TEST_PATH" <<EOL
+package dev.ericburden.aoc2023
+
+import dev.ericburden.aoc2023.Resources.resourceAsText
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+
+@DisplayName("Day ${DAY}")
+class Day${PADDED}Test {
+
+    private val example1 = resourceAsText("day${PADDED}ex01.txt")
+    private val input = resourceAsText("day${PADDED}.txt")
+    private val part1ExampleResult = 0
+    private val part1Answer = 0
+    private val part2ExampleResult = 0
+    private val part2Answer = 0
+
+    @Nested
+    @DisplayName("Part 1")
+    inner class Part1 {
+        @Test
+        fun \`Matches example\`() {
+            val answer = Day${PADDED}(example1).solvePart1()
+            assertThat(answer).isEqualTo(part1ExampleResult)
+        }
+
+        @Test
+        fun \`Actual answer\`() {
+            val answer = Day${PADDED}(input).solvePart1()
+            assertThat(answer).isEqualTo(part1Answer)
+        }
+    }
+
+    @Nested
+    @DisplayName("Part 2")
+    inner class Part2 {
+        @Test
+        fun \`Matches example\`() {
+            val answer = Day${PADDED}(example1).solvePart2()
+            assertThat(answer).isEqualTo(part2ExampleResult)
+        }
+
+        @Test
+        fun \`Actual answer\`() {
+            val answer = Day${PADDED}(input).solvePart2()
+            assertThat(answer).isEqualTo(part2Answer)
+        }
+    }
+}
+EOL
+
+# Fetch the input with aoc-cli
+RESOURCE_PATH=src/main/resources
+mkdir -p $RESOURCE_PATH # Ensure directory exists
+INPUT_PATH="${RESOURCE_PATH}/day${PADDED}.txt"
+aoc -s $COOKIE -y $YEAR -d $DAY -I -i $INPUT_PATH download

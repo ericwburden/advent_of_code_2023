@@ -56,8 +56,8 @@ This project uses Maven as the build system. Dependencies can be installed with
 `mvn compile`. Run all tests with `mvn test`. More to come in this section as
 I discover more functionality :D.
  
-This project also include a `get-input` bash script that leverages the 
-[`aoc-cli`](https://github.com/scarvalhojr/aoc-cli) Rust CLI tool to download
-the input files, name them, and place them in the correct folder. The
-script automatically attempts to download the input for the day following
-the most recent input file already downloaded.
+This project also include a `setup-day` bash script that leverages the 
+[`aoc-cli`](https://github.com/scarvalhojr/aoc-cli) Rust CLI tool to create
+the days' class and test files, download the input files, name them, and
+place them in the correct folder. The script can be invoked as 
+`setup-day {day}`.
