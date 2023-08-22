@@ -28,7 +28,7 @@ language to learn.
 │   │ └─Day##Test.kt
 │   └resources
 │     └─day##ex##.txt
-├─get-input
+├─setup-day
 ├─pom.xml
 └─README.md
 ```
