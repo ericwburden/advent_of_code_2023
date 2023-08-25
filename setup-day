@@ -16,7 +16,7 @@ if (("$DAY" > 25 || "$DAY" < 1)); then
 fi
 
 # Don't try to set up years with no AoC (or in the future)
-if (($YEAR < 2015 || $YEAR > $(date + "%Y"))); then
+if ((YEAR < 2015 || YEAR > $(date +"%Y"))); then
 	echo "The year passed must be a valid AoC year!"
 	exit 0
 fi
@@ -29,7 +29,7 @@ if [ ! -f "$COOKIE" ]; then
 fi
 
 # Create the class files for the given day
-PADDED=$(printf "%02d" $DAY)
+PADDED=$(printf "%02d" "$DAY")
 SOLUTION_PATH="src/main/kotlin/dev/ericburden/aoc2023/Day${PADDED}.kt"
 TEST_PATH="src/test/kotlin/dev/ericburden/aoc2023/Day${PADDED}Test.kt"
 
@@ -56,6 +56,7 @@ package dev.ericburden.aoc2023
 
 import dev.ericburden.aoc2023.Resources.resourceAsText
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -80,6 +81,7 @@ class Day${PADDED}Test {
         }
 
         @Test
+        @Disabled
         fun \`Actual answer\`() {
             val answer = Day${PADDED}(input).solvePart1()
             assertThat(answer).isEqualTo(part1Answer)
@@ -90,12 +92,14 @@ class Day${PADDED}Test {
     @DisplayName("Part 2")
     inner class Part2 {
         @Test
+        @Disabled
         fun \`Matches example\`() {
             val answer = Day${PADDED}(example1).solvePart2()
             assertThat(answer).isEqualTo(part2ExampleResult)
         }
 
         @Test
+        @Disabled
         fun \`Actual answer\`() {
             val answer = Day${PADDED}(input).solvePart2()
             assertThat(answer).isEqualTo(part2Answer)
@@ -108,4 +112,7 @@ EOL
 RESOURCE_PATH=src/main/resources
 mkdir -p $RESOURCE_PATH # Ensure directory exists
 INPUT_PATH="${RESOURCE_PATH}/day${PADDED}.txt"
-aoc -s $COOKIE -y $YEAR -d $DAY -I -i $INPUT_PATH download
+aoc -s $COOKIE -y "$YEAR" -d "$DAY" -I -i "$INPUT_PATH" -o download
+
+# Create a blank file for the first example (others can be created manually)
+touch "src/test/resources/day${PADDED}ex01.txt"
