@@ -19,6 +19,13 @@ private fun String.extractDigitsPart1(): List<Int> {
  */
 private fun String.extractDigitsPart2(): List<Int> {
     val pattern = """(?=(one|two|three|four|five|six|seven|eight|nine|\d))"""
+
+    // Because we have to account for overlaps, I'm using the "non-consuming" regular
+    // expression above. This does weird things (IMO) to the match values, causing
+    // `findAll()` to return a list of values for each match where the first value
+    // is an empty string. Probably just means I need to learn more about regex.
+    // Regardless, the result is that I need to flatten the results and remove empty
+    // strings before converting the matches to numbers.
     return Regex(pattern)
             .findAll(this)
             .flatMap { it.groupValues }
