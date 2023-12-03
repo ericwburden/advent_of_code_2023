@@ -13,6 +13,10 @@ sealed class SchematicItem {
 
 typealias Coordinate = Pair<Int, Int>
 
+operator fun Coordinate.plus(other: Pair<Int, Int>): Coordinate {
+  return Coordinate(first + other.first, second + other.second)
+}
+
 /**
  * This class represents the engine schematic
  *
@@ -112,9 +116,7 @@ private constructor(
       number@ for (coordinate in coordinates) {
         for (offset in offsets) {
           // Get the neighboring coordinate to check
-          val row = coordinate.first + offset.first
-          val col = coordinate.second + offset.second
-          val checkAt = Coordinate(row, col)
+          val checkAt = coordinate + offset
 
           // If there's a value at that coordinate and that value is
           // a [SchematicItem.Symbol], then this number really is
@@ -158,9 +160,7 @@ private constructor(
 
       // Check all around the symbol...
       for (offset in offsets) {
-        val row = coordinate.first + offset.first
-        val col = coordinate.second + offset.second
-        val checkAt = Coordinate(row, col)
+        val checkAt = coordinate + offset
 
         // If the neighboring coordinate contains a value that can be
         // coerced to a [SchematicItem.Number], we haven't added that
