@@ -115,13 +115,10 @@ private constructor(
     for ((number, coordinates) in numbers) {
       number@ for (coordinate in coordinates) {
         for (offset in offsets) {
-          // Get the neighboring coordinate to check
-          val checkAt = coordinate + offset
-
-          // If there's a value at that coordinate and that value is
+          // If there's a value at the neighbor coordinate and that value is
           // a [SchematicItem.Symbol], then this number really is
           // a part number! Add it to our list and move on.
-          val maybeSymbol = map.get(checkAt) as? SchematicItem.Symbol
+          val maybeSymbol = map.get(coordinate + offset) as? SchematicItem.Symbol
           if (maybeSymbol != null) {
             partNumbers.add(number)
             break@number
@@ -160,15 +157,13 @@ private constructor(
 
       // Check all around the symbol...
       for (offset in offsets) {
-        val checkAt = coordinate + offset
-
         // If the neighboring coordinate contains a value that can be
         // coerced to a [SchematicItem.Number], we haven't added that
         // number to the gear ratio yet, and it's not the third (or
         // greater) number we've found, then we add (by multiplying) that
         // number to the gear ratio and add the number's ID to the set
         // of seen numbers.
-        val maybeNumber = map.get(checkAt) as? SchematicItem.Number
+        val maybeNumber = map.get(coordinate + offset) as? SchematicItem.Number
         if (maybeNumber != null && !numbersSeen.contains(maybeNumber.id)) {
           if (numbersAdded >= 2) continue@symbol // more than two numbers
           ratio *= maybeNumber.number
