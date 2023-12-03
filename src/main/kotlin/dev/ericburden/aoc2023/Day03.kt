@@ -45,38 +45,43 @@ private constructor(
       for ((row, line) in input.trimEnd().split("\n").withIndex()) {
         var col = 0
         while (col < line.length) {
-          if (line[col] == '.') {
-            // If the current character is a period, skip this column
-            col += 1
-          } else if (line[col].isDigit()) {
-            // If the current character is numeric digit, parse the number,
-            // add it to the [map], and skip ahead to the end of the
-            // number string
-            var buffer = StringBuilder()
-            val first_col = col
-            val id = (row * line.length) + col // The ID for this number
-            while (line[col].isDigit()) {
-              buffer.append(line[col])
-              col += 1
-              if (col >= line.length) break // Safety measure
-            }
+          when (line[col]) {
+            '.' -> col += 1 // Skip periods
+            in '0'..'9' -> {
+              // If the current character is a numeric digit, parse the number,
+              // add it to the [map], and skip ahead to the end of the
+              // number string
+              var buffer = StringBuilder()
+              val first_col = col
+              val id = (row * line.length) + col // The ID for this number
+              while (col < line.length && line[col].isDigit()) {
+                buffer.append(line[col])
+                col += 1
+              }
 
-            // No need to check the string, we guaranteed it only contains digits
-            val partNumber = SchematicItem.Number(id, buffer.toString().toInt())
-            var numberCoords = mutableListOf<Coordinate>()
-            for (inner_col in first_col until col) {
-              val coordinate = Coordinate(row, inner_col)
-              map.put(coordinate, partNumber)
-              numberCoords.add(coordinate)
+              // No need to check the string, we guaranteed it only contains digits
+              val partNumber = SchematicItem.Number(id, buffer.toString().toInt())
+
+              // We'll also keep a list of numbers and the coordinates associated with
+              // the digits of that number.
+              var numberCoords = mutableListOf<Coordinate>()
+              for (inner_col in first_col until col) {
+                val coordinate = Coordinate(row, inner_col)
+                map.put(coordinate, partNumber)
+                numberCoords.add(coordinate)
+              }
+
+              numbers.add(partNumber to numberCoords)
             }
-            numbers.add(partNumber to numberCoords)
-          } else {
-            // Otherwise, we're dealing with a symbol.
-            val symbol = SchematicItem.Symbol(line[col])
-            val coordinate = Coordinate(row, col)
-            map.put(coordinate, symbol)
-            symbols.add(symbol to coordinate)
-            col += 1
+            else -> {
+              // Otherwise, we're dealing with a symbol. A symbol gets added to the
+              // map and to the list of symbols and their coordinates.
+              val symbol = SchematicItem.Symbol(line[col])
+              val coordinate = Coordinate(row, col)
+              map.put(coordinate, symbol)
+              symbols.add(symbol to coordinate)
+              col += 1
+            }
           }
         }
       }
