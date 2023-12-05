@@ -59,11 +59,11 @@ data class Card private constructor(val id: Int, val matches: Int) {
     // without first casting it to a double. I don't _want_ to do type
     // conversion for exponents! So, I'm just doubling the value in a loop.
     var score = if (matches == 0) 0 else 1
-    if (matches > 1) {
-      repeat(matches - 1) { score = score * 2 }
-    }
+    // if (matches > 1) {
+    //   repeat(matches - 1) { score = score * 2 }
+    // }
 
-    return score
+    return score shl (matches - 1)
   }
 }
 
