@@ -54,7 +54,7 @@ data class Almanac(
      *
      * This is where we're using the gnarly type alias defined at the top. The idea is to produce a
      * list that can be converted to a Map that can be used to look up, for each resource, what
-     * numbers for the next resource it needs.catch
+     * numbers for the next resource it needs.
      *
      * @param lines The input lines for one chunk of the input file.
      * @return An object that can become an entry in the [Almanac.mappings] map.
