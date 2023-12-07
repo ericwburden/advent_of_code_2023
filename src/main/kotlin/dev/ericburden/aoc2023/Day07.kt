@@ -58,13 +58,13 @@ enum class CamelCard(val strength: Int) {
  * @param strength The strength of this kind of hand when it comes to sorting.
  */
 enum class HandKind(val strength: Int) {
-    FiveOfAKind(700_000_000),
-    FourOfAKind(600_000_000),
-    FullHouse(500_000_000),
-    ThreeOfAKind(400_000_000),
-    TwoPair(300_000_000),
-    OnePair(200_000_000),
-    HighCard(100_000_000);
+    FiveOfAKind(7_000_000),
+    FourOfAKind(6_000_000),
+    FullHouse(5_000_000),
+    ThreeOfAKind(4_000_000),
+    TwoPair(3_000_000),
+    OnePair(2_000_000),
+    HighCard(1_000_000);
 
     companion object {
         /**
@@ -154,6 +154,9 @@ private constructor(val cards: List<CamelCard>, val bid: Int, val kind: HandKind
          */
         fun fromString(string: String): CamelCardHand {
             val (cardString, bidString) = string.split(" ")
+            require(cardString.length == 5) {
+                throw IllegalArgumentException("A hand must contain five cards!")
+            }
             val cards = cardString.map { CamelCard.fromChar(it) }
             val bid = bidString.toInt()
             val kind = HandKind.classify(cards)
@@ -161,18 +164,42 @@ private constructor(val cards: List<CamelCard>, val bid: Int, val kind: HandKind
         }
     }
 
-    // The strength of a hand is derived from the individual cards in it, their order,
-    // and what kind of hand is formed by those cards.
+    /**
+     * Calculate and return the total strength of this hand.
+     * 
+     * The strength of a hand is derived from the individual cards in it, their order,
+     * and what kind of hand is formed by those cards. Each card in the hand is worth
+     * it's own strength times its place value. The place value is 14 (the maximum card
+     * strength) raised to the place index (descending from left to right). For example,
+     * the cards [2, 2, 2, 2, 2] would have place values of 
+     * [2 * 14^4, 2 * 14^3, 2 * 14^2, 2 * 14^1, 2 * 14^0]. The strength derived from the
+     * _kind_ of hand is the most influential, since hands are sorted based on kind, then
+     * on the order of the cards. For this reason, each kind contributes an extra 
+     * 100_000_000 to the strength, which is greater than the maximum possible strength 
+     * derived from any set of cards ([A, A, A, A, A] = 579,194), and they're nice round
+     * numbers! These values contribute to a strength score such that, when sorted by that
+     * strength, hands will be sorted first on the kind of hand then on the order of the
+     * individual cards.
+     * 
+     * @return The total strength of this hand.
+     */
     val strength: Int
         get() {
             val maxCardIdx = cards.size - 1
             val cardStrength =
                     cards.zip(maxCardIdx downTo 0).sumOf { (card, exp) ->
-                        card.strength * 15.pow(exp)
+                        card.strength * 14.pow(exp)
                     }
             return cardStrength + kind.strength
         }
 
+    /**
+     * Replace all the Jacks in a hand with Jokers
+     * 
+     * Recalculates the [HandKind] of this hand with Jokers included.
+     * 
+     * @return A copy of this hand with all Jacks replaced with Jokers.
+     */
     fun replaceJacksWithJokers(): CamelCardHand {
         val cards = cards.map { if (it == CamelCard.JACK) CamelCard.JOKER else it } // maybe STL?
         val kind = HandKind.classifyWithJokers(cards)
@@ -182,13 +209,17 @@ private constructor(val cards: List<CamelCard>, val bid: Int, val kind: HandKind
 
 class Day07(input: List<String>) {
 
+    // With the data nicely modeled, parsing is a breeze!
     private val parsed = input.filter { it.isNotEmpty() }.map { CamelCardHand.fromString(it) }
 
+    // The trickiest bit to part one was telling the difference between a hand with
+    // on pair and a hand with two pair.
     fun solvePart1(): Int =
             parsed.sortedBy { it.strength }.withIndex().sumOf { (idx, hand) ->
                 (idx + 1) * hand.bid
             }
 
+    // The trickiest bit to part two was that one hand with all Jacks!
     fun solvePart2(): Int =
             parsed.map { it.replaceJacksWithJokers() }.sortedBy { it.strength }.withIndex().sumOf {
                     (idx, hand) ->
