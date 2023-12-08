@@ -9,7 +9,7 @@ internal object Resources {
   fun resourceAsLines(fileName: String): List<String> = File(fileName.toURI()).readLines()
 
   fun resourceAsLineChunks(fileName: String, delimiter: String = "\n\n"): List<List<String>> =
-      resourceAsText(fileName).split(delimiter).map { it.lines().takeWhile { !it.isEmpty() }.toList() }
+      resourceAsText(fileName).split(delimiter).map { it.lines().takeWhile { line -> line.isNotEmpty() }.toList() }
 
   fun resourceAsString(fileName: String, delimiter: String = ""): String =
       resourceAsLines(fileName).reduce { a, b -> "$a$delimiter$b" }
