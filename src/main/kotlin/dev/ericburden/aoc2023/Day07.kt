@@ -175,7 +175,7 @@ private constructor(val cards: List<CamelCard>, val bid: Int, val kind: HandKind
      * [2 * 14^4, 2 * 14^3, 2 * 14^2, 2 * 14^1, 2 * 14^0]. The strength derived from the
      * _kind_ of hand is the most influential, since hands are sorted based on kind, then
      * on the order of the cards. For this reason, each kind contributes an extra 
-     * 100_000_000 to the strength, which is greater than the maximum possible strength 
+     * 1_000_000 to the strength, which is greater than the maximum possible strength 
      * derived from any set of cards ([A, A, A, A, A] = 579,194), and they're nice round
      * numbers! These values contribute to a strength score such that, when sorted by that
      * strength, hands will be sorted first on the kind of hand then on the order of the
@@ -201,7 +201,7 @@ private constructor(val cards: List<CamelCard>, val bid: Int, val kind: HandKind
      * @return A copy of this hand with all Jacks replaced with Jokers.
      */
     fun replaceJacksWithJokers(): CamelCardHand {
-        val cards = cards.map { if (it == CamelCard.JACK) CamelCard.JOKER else it } // maybe STL?
+        val cards = cards.map { if (it == CamelCard.JACK) CamelCard.JOKER else it }
         val kind = HandKind.classifyWithJokers(cards)
         return CamelCardHand(cards, bid, kind)
     }
