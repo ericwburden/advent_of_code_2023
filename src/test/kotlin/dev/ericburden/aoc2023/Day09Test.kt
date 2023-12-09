@@ -14,7 +14,7 @@ class Day09Test {
     private val part1ExampleResult = 114
     private val part1Answer = 1987402313
     private val part2ExampleResult = 2
-    private val part2Answer = 0
+    private val part2Answer = 900
 
     @Nested
     @DisplayName("Part 1")
