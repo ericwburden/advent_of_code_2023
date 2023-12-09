@@ -1,5 +1,6 @@
 package dev.ericburden.aoc2023
 
+<<<<<<< HEAD
 /**
  * Return the next number in the sequence.
  *
@@ -17,12 +18,18 @@ fun List<Int>.nextSequenceValue(): Int {
     if (this.all { it == this[0] }) return this[0]
 
     // Get the differences between each pair of values in `sequence`.
+=======
+fun List<Int>.nextSequenceValue(): Int {
+    if (this.all { it == this[0] }) return this[0]
+
+>>>>>>> origin/solve-day09
     val derivedSequence = this.windowed(2) { (left, right) -> right - left }
     return this.last() + derivedSequence.nextSequenceValue()
 }
 
 class Day09(input: List<String>) {
 
+<<<<<<< HEAD
     // List of space-separated strings to list of lists of numbers,
     // coming up!
     private val parsed = input.map { line -> line.split(" ").map { it.toInt() }}
@@ -32,5 +39,11 @@ class Day09(input: List<String>) {
 
     // In part two, we extrapolate each list _backwards_ by one, then sum
     // those results.
+=======
+    private val parsed = input.map { line -> line.split(" ").map { it.toInt() }}
+
+    fun solvePart1(): Int = parsed.sumOf { it.nextSequenceValue() }
+
+>>>>>>> origin/solve-day09
     fun solvePart2(): Int = parsed.sumOf { it.reversed().nextSequenceValue() }
 }
