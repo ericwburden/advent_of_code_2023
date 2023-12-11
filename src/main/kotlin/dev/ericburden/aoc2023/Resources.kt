@@ -20,6 +20,9 @@ internal object Resources {
   fun resourceAsListOfLong(fileName: String): List<Long> =
       resourceAsLines(fileName).map { it.toLong() }
 
+    fun resourceAsGridOfChar(fileName: String): List<List<Char>> =
+        resourceAsLines(fileName).map { it.toList() }
+
   private fun String.toURI(): URI =
       Resources.javaClass.classLoader.getResource(this)?.toURI()
           ?: throw IllegalArgumentException("Cannot find Resource: $this")
