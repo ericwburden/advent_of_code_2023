@@ -180,6 +180,11 @@ import dev.ericburden.aoc2023.Utils.repeating
  * Possible Combinations: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 6, 10] add group of 1
  */
 
+/**
+ * This enum represents the different states for a section of spring
+ *
+ * @property rep The character that represents this enum variant.
+ */
 enum class Condition(val rep: Char) {
     DAMAGED('#'), OPERATIONAL('.'), UNKNOWN('?');
 
@@ -195,10 +200,17 @@ enum class Condition(val rep: Char) {
     }
 }
 
+/**
+ * This class represents the condition record of a single spring.
+ *
+ * @property sections A list of the conditions of the sections of the spring.
+ * @property damagedGroups A list of known sizes of damaged regions.
+ */
 data class ConditionRecord(
     val sections: List<Condition>, val damagedGroups: List<Int>
 ) {
     companion object {
+        // Parse the input lines!
         fun fromString(str: String): ConditionRecord {
             val (conditionStr, groupStr) = str.split(" ").map { it.trim() }
             val conditions = conditionStr.map(Condition::fromChar)
@@ -301,7 +313,6 @@ data class ConditionRecord(
                 .flatMap { it }.toList()
         return ConditionRecord(conditions, damagedGroups)
     }
-
 }
 
 class Day12(input: List<String>) {
