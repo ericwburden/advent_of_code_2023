@@ -200,6 +200,7 @@ enum class Condition(val rep: Char) {
     }
 }
 
+
 /**
  * This class represents the condition record of a single spring.
  *
