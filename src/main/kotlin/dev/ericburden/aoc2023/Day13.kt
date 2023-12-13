@@ -1,57 +1,10 @@
 package dev.ericburden.aoc2023
 
+import dev.ericburden.aoc2023.Utils.bitdiff
+import dev.ericburden.aoc2023.Utils.toBinary
+import dev.ericburden.aoc2023.Utils.transpose
+
 enum class MirrorDetectionStrategy { ALL_MIRRORED, ONE_SMUDGE }
-
-/**
- * Transposes a rectangular matrix
- *
- * This function extends the functionality of a [List<List<T>>] by adding a
- * `transpose` function which returns a transposed copy of the original
- * list of lists. All the sub-lists must be the same length. For example:
- *
- *  [[1, 2, 3],             [[1, 4, 7],
- *   [4, 5, 6],     ->       [2, 5, 8],
- *   [7, 8, 9]]              [3, 6, 9]]
- *
- *  @return The transposed list of lists.
- */
-fun <T> List<List<T>>.transpose(): List<List<T>> {
-    if (isEmpty() || this.any { it.size != this[0].size }) {
-        throw IllegalArgumentException("Inner lists must have the same size")
-    }
-
-    return List(this[0].size) { col ->
-        List(size) { row ->
-            this[row][col]
-        }
-    }
-}
-
-/**
- * Converts a String to an Integer by interpreting it as a binary value
- *
- * This function extends the functionality of [String] by adding a `toBinary`
- * function that interprets the characters in the string as 1's and 0's then
- * converts it to the [Int] represented by the binary string.
- *
- * @param one The character to interpret as 1.
- * @param zero The character to interpret as 0.
- * @return The String as binary and converted to an Int.
- */
-fun String.toBinary(one: Char = '#', zero: Char = '.'): Int =
-    toList().joinToString("") { char ->
-        when (char) {
-            one -> "1"
-            zero -> "0"
-            else -> {
-                throw Exception("$char has not be specified as either '1' or '0'!")
-            }
-        }
-    }.toInt(radix = 2)
-
-infix fun Int.bitdiff(other: Int): Int {
-    return Integer.bitCount(this xor other)
-}
 
 /**
  * The class represents one of the patterns of the landscape with a mirror
