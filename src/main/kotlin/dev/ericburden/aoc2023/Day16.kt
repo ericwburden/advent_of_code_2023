@@ -1,5 +1,9 @@
 package dev.ericburden.aoc2023
 
+import dev.ericburden.aoc2023.Utils.Index2D
+import dev.ericburden.aoc2023.Utils.Offset2D
+import dev.ericburden.aoc2023.Utils.plus
+
 /**
  * This class serves as the superclass for all grid cells
  *
@@ -126,17 +130,6 @@ class LeftLeaningMirrorGridCell(energized: Boolean) :
 
     override fun copy() = LeftLeaningMirrorGridCell(energized)
 }
-
-// This class represents an index in a 2-dimensional grid
-data class Index2D(val row: Int, val col: Int)
-
-// This class represents an offset from a grid position. Used to shift
-// a position by adding this offset to a position.
-data class Offset2D(val rows: Int, val cols: Int)
-
-// Implement adding [Offset2D] to an [Index2D]
-operator fun Index2D.plus(offset: Offset2D): Index2D =
-    Index2D(row + offset.rows, col + offset.cols)
 
 // Convenience!
 fun MutableList<MutableList<AbstractLaserGridCell>>.wrap(): LaserGrid =

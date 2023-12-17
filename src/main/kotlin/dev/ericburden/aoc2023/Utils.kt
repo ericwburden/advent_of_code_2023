@@ -2,10 +2,10 @@ package dev.ericburden.aoc2023
 
 import kotlin.math.abs
 
-internal object Utils {
+object Utils {
     /**
      * Raise an integer to the power of [exponent]
-     * 
+     *
      * @param exponent The power to raise this integer to.
      * @return The original integer raised to the power of [exponent].
      */
@@ -13,17 +13,17 @@ internal object Utils {
         if (exponent == 0) {
             return 1
         }
-    
+
         var result = 1
         var base = this
         var exp = exponent
-    
+
         // Handle negative exponents
         if (exp < 0) {
             base = 1 / base
             exp = -exp
         }
-    
+
         while (exp > 0) {
             if (exp % 2 == 1) {
                 result *= base
@@ -31,7 +31,7 @@ internal object Utils {
             base *= base
             exp /= 2
         }
-    
+
         return result
     }
 
@@ -91,7 +91,7 @@ internal object Utils {
      *
      * @return A RepeatingList over the list.
      */
-    fun<T> List<T>.repeating(): Iterator<T> = RepeatingList(this)
+    fun <T> List<T>.repeating(): Iterator<T> = RepeatingList(this)
 
     /**
      * This class represents an iterator that repeats the values in a list.
@@ -173,4 +173,15 @@ internal object Utils {
     infix fun Int.bitdiff(other: Int): Int {
         return Integer.bitCount(this xor other)
     }
+
+    // This class represents an index in a 2-dimensional grid
+    data class Index2D(val row: Int, val col: Int)
+
+    // This class represents an offset from a grid position. Used to shift
+    // a position by adding this offset to a position.
+    data class Offset2D(val rows: Int, val cols: Int)
+
+    // Implement adding [Offset2D] to an [Index2D]
+    operator fun Index2D.plus(offset: Offset2D): Index2D =
+        Index2D(row + offset.rows, col + offset.cols)
 }
