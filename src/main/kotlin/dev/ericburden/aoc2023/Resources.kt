@@ -23,6 +23,9 @@ internal object Resources {
     fun resourceAsGridOfChar(fileName: String): List<List<Char>> =
         resourceAsLines(fileName).map { it.toList() }
 
+    fun resourceAsGridOfDigits(fileName: String): List<List<Int>> =
+        resourceAsLines(fileName).map { it.map { char -> char.digitToInt() } }
+
   private fun String.toURI(): URI =
       Resources.javaClass.classLoader.getResource(this)?.toURI()
           ?: throw IllegalArgumentException("Cannot find Resource: $this")
