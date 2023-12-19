@@ -3,34 +3,9 @@ package dev.ericburden.aoc2023
 import dev.ericburden.aoc2023.Utils.Index2D
 import dev.ericburden.aoc2023.Utils.Offset2D
 import dev.ericburden.aoc2023.Utils.plus
+import dev.ericburden.aoc2023.Utils.CardinalDirection
 import java.util.PriorityQueue
 
-/**
- * This enum represents the four cardinal directions
- *
- * The four cardinal directions are north, south, east, and west. This
- * enum also provides methods for turning from one cardinal direction
- * to another.
- */
-enum class CardinalDirection {
-    NORTH, SOUTH, EAST, WEST;
-
-    // Turn this direction to the left
-    fun turnLeft(): CardinalDirection = when (this) {
-        NORTH -> WEST
-        EAST -> NORTH
-        SOUTH -> EAST
-        WEST -> SOUTH
-    }
-
-    // Turn this direction to the right
-    fun turnRight(): CardinalDirection = when (this) {
-        NORTH -> EAST
-        EAST -> SOUTH
-        SOUTH -> WEST
-        WEST -> NORTH
-    }
-}
 
 // In part two, we have ULTRA crucibles, which behave a little differently
 enum class CrucibleKind { REGULAR, ULTRA; }
