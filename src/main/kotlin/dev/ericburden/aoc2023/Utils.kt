@@ -184,4 +184,38 @@ object Utils {
     // Implement adding [Offset2D] to an [Index2D]
     operator fun Index2D.plus(offset: Offset2D): Index2D =
         Index2D(row + offset.rows, col + offset.cols)
+
+    /**
+     * This enum represents the four cardinal directions
+     *
+     * The four cardinal directions are north, south, east, and west. This
+     * enum also provides methods for turning from one cardinal direction
+     * to another.
+     */
+    enum class CardinalDirection {
+        NORTH, SOUTH, EAST, WEST;
+
+        // Turn this direction to the left
+        fun turnLeft(): CardinalDirection = when (this) {
+            NORTH -> WEST
+            EAST -> NORTH
+            SOUTH -> EAST
+            WEST -> SOUTH
+        }
+
+        // Turn this direction to the right
+        fun turnRight(): CardinalDirection = when (this) {
+            NORTH -> EAST
+            EAST -> SOUTH
+            SOUTH -> WEST
+            WEST -> NORTH
+        }
+
+        fun toOffset(): Offset2D = when (this) {
+            NORTH -> Offset2D(-1, 0)
+            EAST -> Offset2D(0, 1)
+            SOUTH -> Offset2D(1, 0)
+            WEST -> Offset2D(0, -1)
+        }
+    }
 }
