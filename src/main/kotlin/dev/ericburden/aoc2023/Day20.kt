@@ -10,7 +10,7 @@ enum class PulseKind {
 }
 
 /**
- * This class represents a pulse sent through the network of modules
+ * This class represents a pulse sent through the [ModuleArray]
  *
  * @property source The label of the module sending the pulse.
  * @property destination The label of the module to receive the pulse.
