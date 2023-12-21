@@ -2,7 +2,6 @@ package dev.ericburden.aoc2023
 
 import dev.ericburden.aoc2023.Utils.Index2D
 import dev.ericburden.aoc2023.Utils.Offset2D
-import dev.ericburden.aoc2023.Utils.plus
 
 /**
  * This class serves as the superclass for all grid cells
