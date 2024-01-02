@@ -50,7 +50,6 @@ class Day24Test {
             assertThat(answer).isEqualTo(part2ExampleResult)
         }
 
-        // 2147483646 too low
         @Test
         fun `Actual answer`() {
             val answer = Day24(input).solvePart2()
