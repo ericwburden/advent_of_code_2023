@@ -185,10 +185,6 @@ object Utils {
     // a position by adding this offset to a position.
     data class Offset2D(val rows: Int, val cols: Int)
 
-//    // Implement adding [Offset2D] to an [Index2D]
-//    operator fun Index2D.plus(offset: Offset2D): Index2D =
-//        Index2D(row + offset.rows, col + offset.cols)
-
     /**
      * This enum represents the four cardinal directions
      *
