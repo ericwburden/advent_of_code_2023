@@ -36,6 +36,15 @@ data class Region2D(
  *   [ 0,  1, -6, -8,   -3],     >      [0, 0, 1, 0, -3],   (dX)
  *   [-3, -2, 12,  8, -126]]     >      [0, 0, 0, 1,  1]]   (dY)
  *
+ * This is called the "reduced row echelon" form, and achieving this state means
+ * that our constants on the right-hand side of the equation _is_ the value for
+ * the unknown variable, like:
+ *
+ *    -2X - 1Y -  6dX - 1dY =  -44  ->  1X + 0Y + 0dX + 0dY = 24  ->  X = 24
+ *    -1X + 1Y -  6dX + 2dY =    9  ->  0X + 1Y + 0dX + 0dY = 13  ->  Y = 13
+ *     0X + 1Y -  6dX - 8dY =   -3  ->  0X + 0Y + 1dX + 0dY = -3  -> dX = -3
+ *    -3X - 2Y + 12dX + 8dY = -126  ->  0X + 0Y + 0dX + 1dY =  1  -> dy =  1
+ *
  * @param coefficients The coefficients of the system of linear equations.
  * @return The coefficients on the right-hand side of the simplified system
  * of equations.
